@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="coffee.png">
+  <style>
+    body {
+      margin: auto;
+    }
+
+
+    .add-item {
+      font-weight: bold;
+      margin: auto;
+      width: 100px;
+    }
+
+    img {
+      width: 100px;
+      height: 120px;
+    }
+
+    .item-details .item-info {
+      height: 150px;
+      width: 150px;
+    }
+
+    h2 {
+      color: black;
+      margin: auto;
+    }
+
+    header {
+      background-color: #f8f8f8;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+  
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .coffee-list h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #333;
+      
+    }
+
+    .icon-cart {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      float: right;
+    }
+
+    .icon-cart svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    #count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .price {
+      font-weight: bold;
+      color: black;
+    }
+
+
+    .add-item {
+      background-color: black;
+      color: aliceblue;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #shopping-cart {
+      width: 20%;
+      background-color: darkslategray;
+      color: #c8d2c8;
+      position: fixed;
+      inset: 0 0 0 auto;
+      display: grid;
+      grid-template-rows: 70px 1fr 70px;
+    }
+
+    .order {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .btn {
+            
+            padding-bottom: 90px;
+        }
+
+
+    .cart {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      padding: 11px;
+    }
+
+    .cart-item {
+      background: whitesmoke;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 16px;
+      max-width: 170px;
+      flex: 1 1 calc(50% - 32px);
+      /* Responsive grid items */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .cart-item img {
+      width: 200px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 16px;
+    }
+
+    .item-info {
+      margin-top: 8px;
+    }
+
+    .item-info h2 {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .price {
+      font-size: 16px;
+      color: #333;
+    }
+
+    button.add-item {
+      background-color: #0d0d0e;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button.add-item:hover {
+      background-color: #54575a;
+    }
+
+    /* Small screen adjustments */
+    @media (max-width: 768px) {
+      .cart-item {
+        flex: 1 1 calc(100% - 32px);
+        /* Full width on smaller screens */
+      }
+
+      .cart {
+        padding: 8px;
+        gap: 8px;
+      }
+
+      button.add-item {
+        width: 100%;
+        /* Full width button on small screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cart-item img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .item-info h2 {
+        font-size: 16px;
+      }
+
+      .price {
+        font-size: 14px;
+      }
+    }
+
+    img {
+      box-shadow: none;
+    }
+
+    /* Hide the shopping cart by default */
+    #shopping-cart.hidden {
+      display: none;
+    }
+
+    /* Styling for visible shopping cart */
+    #shopping-cart {
+      position: fixed;
+      top: 20%;
+      right: 5%;
+      font-weight: bold;
+      width: 300px;
+      padding: 16px;
+      background-color: rgb(34, 33, 33);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      border: 1px solid #ddd;
+      z-index: 1000;
+      border-radius: 8px;
+    }
+
+    .cartList .qauntity span {
+      display: inline-block;
+      background-color: aliceblue;
+      border-radius: 50%;
+    }
+
+    .cartList {
+      overflow: auto;
+    }
+
+    .cart:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .cart .cart-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .checkout {
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <div class="coffee-list">
+        <h1>Coffee Menu</h1>
+      </div>
+      <button class="icon-cart" id="cart-icon">
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+        </svg>
+        <span id="count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <br>
+  <div class="cart">
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="cappuccino.png" alt="cappuccino">
+        <div class="item-info">
+          <h2>Cappuccino</h2>
+          <div class="price">R26.00</div><br>
+          <button class="add-item" data-name="Cappuccino" data-price="26.00">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="IceCoffee.png" alt="IceCoffee"><br>
+        <div class="item-info">
+          <h2>Ice Coffee</h2>
+          <div class="price">R20.00</div><br>
+          <button class="add-item" data-name="Ice Coffee" data-price="20.00">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="Expresso.png" alt="Expresso">
+        <div class="item-info">
+          <h2>Expresso</h2>
+          <div class="price">R20.00</div><br>
+          <button class="add-item" data-name="Expresso" data-price="20.00">ADD TO CART</button>
+        </div>
+      </div><br>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="Dalgona.png" alt="Dalgona">
+        <div class="item-info">
+          <h2>Dalgona</h2>
+          <div class="price">R25.99</div><br>
+          <button class="add-item" data-name="Dalgona" data-price="25.00">ADD TO CART</button>
+        </div>
+      </div><br>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="CaramelFrappe.png" alt="CaramelFrappe">
+        <div class="item-info">
+          <h2>Caremel Frappe</h2>
+          <div class="price">R23.00</div><br>
+          <button class="add-item" data-name="CaramelFrappe" data-price="23.00">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="aerolatte.png" alt="aerolatte">
+        <div class="item-info">
+          <h2>Aerolatte</h2>
+          <div class="price">R29.00</div><br>
+          <button class="add-item" data-name="Aerolatte" data-price="29.00">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="item-details">
+        <img src="Lungo.png" alt="Lungo">
+        <div class="item-info">
+          <h2>Lungo</h2>
+          <div class="price">R30.00</div><br>
+          <button class="add-item" data-name="Lungo" data-price="30.00">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="shopping-cart" class="hidden">
+    <h3>SHOPPING CART</h3>
+    <div class="cartList"></div>
+    <p class="total"> Total: <span id="cart-total">R0.00</span></p>
+    <div class="btn">
+        <a href="order.html" class="order">Checkout</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartCountSpan = document.getElementById('count');
+      const addCartList = document.querySelector('.cartList');
+      const cartIcon = document.getElementById('cart-icon');
+      const shoppingCart = document.getElementById('shopping-cart');
+      const totalPriceElement = document.getElementById('cart-total');
+
+      let cartCount = 0;
+      let cartItems = [];
+      let total = 0;
+
+      // Handle adding items to the cart
+      document.querySelectorAll('.add-item').forEach(button => {
+        button.addEventListener('click', () => {
+          const itemName = button.getAttribute('data-name');
+          const itemPrice = parseFloat(button.getAttribute('data-price'));
+
+          const item = { name: itemName, price: itemPrice };
+          cartItems.push(item);
+          cartCount++;
+          total += itemPrice;
+
+          // Update cart count and list
+          cartCountSpan.textContent = cartCount;
+          updateCartList(cartItems);
+
+          // Update total price
+          totalPriceElement.textContent = `R${total.toFixed(2)}`;
+        });
+      });
+
+      // Toggle shopping cart visibility
+      cartIcon.addEventListener('click', () => {
+        shoppingCart.style.display = shoppingCart.style.display === 'none' || shoppingCart.style.display === '' ? 'grid' : 'none';
+      });
+
+      // Update cart list dynamically
+      function updateCartList(items) {
+        addCartList.innerHTML = ''; // Clear current list
+        items.forEach((item, index) => {
+          const itemInCart = document.createElement('div');
+          itemInCart.textContent = `${index + 1}. ${item.name} - R${item.price.toFixed(2)}`;
+          addCartList.appendChild(itemInCart);
+        });
+      }
+    });
+
+  </script>
+</body>
+
+</html>
